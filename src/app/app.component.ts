@@ -21,6 +21,7 @@ export class AppComponent {
   constructor(
     private fb: FormBuilder,
     private service: ProdutoService) {
+
     this.buscarProdutos();
   }
 
@@ -68,12 +69,16 @@ export class AppComponent {
   }
 
   remover(produto: Produto) {
-    const confirmacao = confirm("Quer realmente excluir esse produto?");
+    const confirmacao = confirm("Quer realmente excluir esse produto?" + produto.nome);
+
     if (confirmacao) {
       this.service.remover(produto.id).subscribe({
         next: () => {
           this.buscarProdutos();
           alert("Produto removido com sucesso");
+        },
+        error: (error) => {
+          console.log(error);
         }
       })
     }
